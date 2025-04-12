@@ -75,7 +75,7 @@ xmgrace cluster_counts.xvg
 - Only atoms matching the given `-selection` will be included in the analysis.
 - Box periodicity is accounted for using `CRYST1` dimensions in the PDB file.
 - Ensure the PDB file has proper frame separation using `END`.
-
+- Cluster Analysis 2.0 Will be able to read Gromacs Format Trajectories (.xtc format)
 ---
 
 That's it. Run, analyze, and plot.
