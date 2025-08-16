@@ -562,24 +562,21 @@ program clusterAnalysis
     
     double precision :: coordinates_i(3), coordinates_j(3)
     double precision :: box_dimensions(3) 
-    double precision :: dx, dy, dz
-    double precision :: dx_adjusted, dy_adjusted, dz_adjusted
+    double precision :: dist_pbc(3)
     double precision :: distance
-
-    ! Compute the direct distances
-    dx = coordinates_i(1) - coordinates_j(1)
-    dy = coordinates_i(2) - coordinates_j(2)
-    dz = coordinates_i(3) - coordinates_j(3)
-
-
-    ! Adjust for periodic boundary conditions
-    dx_adjusted = min(abs(dx), box_dimensions(1) - abs(dx))
-    dy_adjusted = min(abs(dy), box_dimensions(2) - abs(dy))
-    dz_adjusted = min(abs(dz), box_dimensions(3) - abs(dz))
-
+    integer :: i
+    
     ! Compute the distance
-    distance = sqrt(dx_adjusted**2 + dy_adjusted**2 + dz_adjusted**2)
-  
+    
+    do i = 1, 3
+      dist_pbc(i) = abs(coordinates_i(i) - coordinates_j(i))
+      if (dist_pbc(i) > box_dimensions(i) / 2) then
+        dist_pbc(i) = abs(box_dimensions(i) - dist_pbc(i))
+      end if
+    end do
+    
+    distance = sqrt(dist_pbc(1) ** 2 + dist_pbc(2) ** 2 + dist_pbc(3) ** 2)
+     
   end function calculate_distance
 
 
